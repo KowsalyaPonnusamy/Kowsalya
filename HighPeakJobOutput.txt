@@ -1,0 +1,44 @@
+Enter the number of Jobs
+2
+Enter job start time and end time in HHMM format , and earnings
+0900
+1030
+200
+1000
+1200
+300
+The number of tasks and earnings available for others
+Task: 1
+Earnings: 300
+===============================================
+Enter the number of Jobs
+3
+Enter job start time and end time in HHMM format , and earnings
+0900
+1030
+100
+1000
+1200
+100
+1100
+1200
+100
+The number of tasks and earnings available for others
+Task: 2
+Earnings: 100
+================================================
+Enter the number of Jobs
+3
+Enter job start time and end time in HHMM format , and earnings
+0900
+1030
+100
+1000
+1200
+500
+1100
+1200
+300
+The number of tasks and earnings available for others
+Task: 2
+Earnings: 400

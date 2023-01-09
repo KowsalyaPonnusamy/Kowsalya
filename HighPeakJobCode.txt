@@ -1,0 +1,83 @@
+package com.jsp.job;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class Job {
+	int start_time;
+	int end_time;
+	int profit;
+
+	public Job(int start_time, int end_time, int profit) {
+		this.start_time = start_time;
+		this.end_time = end_time;
+		this.profit = profit;
+	}
+
+	static int latestNonConflict(Job arr[], int i) {
+		for (int j = i - 1; j >= 0; j--) {
+			if (arr[j].end_time <= arr[i - 1].start_time)
+				return j;
+		}
+		return -1;
+	}
+
+	static int[] findProfitRec(Job arr[], int n) {
+		int sum=0;
+		for(int i=0;i<n;i++) {
+			sum+=arr[n - 1].profit;
+		}
+		if (n == 1)
+			return new int[] { arr[n - 1].profit, n-1 };
+		int inclProf = arr[n - 1].profit;
+		int i = latestNonConflict(arr, n);
+		if (i != -1) {
+			int[] findMaxProfitRec = findProfitRec(arr, i + 1);
+			inclProf += findMaxProfitRec[0];
+		}
+		int[] exclProf = findProfitRec(arr, n - 1);
+		return new int[] {sum-(Math.max(inclProf, exclProf[0])), n - 1 };
+	}
+
+	static int[] findProfit(Job arr[], int n) {
+		int m=0;
+		for(int i=0;i<arr.length;i++) {
+			m+=arr[arr.length-1].profit;
+		}
+		Arrays.sort(arr, new Comparator<Job>() {
+			public int compare(Job j1, Job j2) {
+				return j1.end_time - j2.end_time;
+			}
+		});
+		return findProfitRec(arr, n);
+	}
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number of Jobs");
+		int n = sc.nextInt();
+		if (n > 0 && n < 10) {
+			System.out.println("Enter job start time and end time in HHMM format , and earnings");
+			Job a[] = new Job[n];
+			int i = 0;
+			while (i < n) {
+				int s = sc.nextInt();
+				int e = sc.nextInt();
+				int p = sc.nextInt();
+				if (s > 0000 && e < 2359 && s < e) {
+					a[i] = new Job(s, e, p);
+					i++;
+				} else
+					System.out.println(
+							"Enter valid time format Start Time should be less than End Time and End Time should be less than 2359");
+			}
+			int[] ans = findProfit(a, a.length);
+			System.out.println("The number of tasks and earnings available for others\r\n" + "Task: " + ans[1]
+					+ "\r\nEarnings: " + ans[0]);
+		}
+
+		else
+			System.out.println("The number of Jobs between 1-9  Please try again....");
+	}
+}
